@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,13 +9,23 @@
     @vite(['resources/js/app.js', 'resources/css/app.scss'])
     <title>Nosecaen S.L. - {{ $title ?? '' }}</title>
 </head>
+
 <body>
     <header>
 
-        <x-layouts.navigation/>
-    
+        <x-layouts.navigation />
+
     </header>
 
+    <section>
+        @if (session('status'))
+        <div class="status">
+            {{ session('status') }}
+        </div>
+        @endif
+    </section>
+
     {{ $slot }}
-</body> 
+</body>
+
 </html>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SaveTareaRequest;
+use App\Models\Provincia;
 use App\Models\Tarea;
 use Illuminate\Http\Request;
 
@@ -25,7 +27,8 @@ class TareaController extends Controller
      */
     public function create()
     {
-        //
+        $provincias = Provincia::get();
+        return view('tareas.create', ['tarea' => new Tarea(),'provincias' => $provincias]);
     }
 
     /**
@@ -34,9 +37,13 @@ class TareaController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SaveTareaRequest $request)
     {
-        //
+        Tarea::create($request->validated());
+
+        session()->flash('status', 'La tarea se ha registrado correctamente');
+        
+        return to_route('tareas.index');
     }
 
     /**
@@ -56,9 +63,10 @@ class TareaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Tarea $tarea)
     {
-        // 
+        $provincias = Provincia::get();
+        return view('tareas.edit', ['tarea' => $tarea, 'provincias' => $provincias]);
     }
 
     /**
@@ -68,9 +76,13 @@ class TareaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(SaveTareaRequest $request, Tarea $tarea)
     {
-        //
+        $tarea->update($request->validated());
+
+        session()->flash('status', 'La tarea se ha registrado correctamente');
+
+        return to_route('tareas.show', $tarea);
     }
 
     /**

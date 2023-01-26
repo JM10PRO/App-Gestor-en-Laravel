@@ -7,4 +7,21 @@ $body-bg: #ccc;
     color: #fff !important;
 }
 
+.page-link {
+    color: #000 !important;
+}
+
+.active > .page-link {
+    background-color: #9ab1b5 !important;
+    border-color: #98adb192 !important;
+}
+
+.form-control {
+    background-color: #fff !important;
+}
+
+.feedback {
+    color: #d70303 !important;
+}
+
 @import 'bootstrap/scss/bootstrap';

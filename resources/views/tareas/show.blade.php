@@ -29,24 +29,24 @@
             </thead>
             <tbody class="table-group-divider">
                 <tr>
-                    <td>{{$tarea['id']}}</td>
-                    <td>{{$tarea['nif']}}</td>
-                    <td>{{$tarea['personacontacto']}}</td>
-                    <td>{{$tarea['telefono']}}</td>
-                    <td>{{$tarea['correo']}}</td>
-                    <td>{{$tarea['poblacion']}}</td>
-                    <td>{{$tarea['codpostal']}}</td>
-                    <td>{{$tarea['provincia']}}</td>
-                    <td>{{$tarea['direccion']}}</td>
-                    <td>{{$tarea['estado']}}</td>
-                    <td>{{$tarea['fechacreacion']}}</td>
-                    <td>{{$tarea['operario']}}</td>
-                    <td>{{$tarea['fecharealizacion']}}</td>
-                    <td>{{$tarea['anotacionanterior']}}</td>
-                    <td>{{$tarea['anotacionposterior']}}</td>
-                    <td>{{$tarea['descripcion']}}</td>
-                    <td><a href="../assets/uploads/{{$tarea['ficheroresumen']}}" target="_blank">{{$tarea['ficheroresumen']}}</a></td>
-                    <td><a href="../assets/uploads/{{$tarea['fotos']}}" target="_blank">{{$tarea['fotos']}}</a></td>
+                    <td>{{$tarea->id}}</td>
+                    <td>{{$tarea->nif}}</td>
+                    <td>{{$tarea->personacontacto}}</td>
+                    <td>{{$tarea->telefono}}</td>
+                    <td>{{$tarea->correo}}</td>
+                    <td>{{$tarea->poblacion}}</td>
+                    <td>{{$tarea->codpostal}}</td>
+                    <td>{{$tarea->provincia}}</td>
+                    <td>{{$tarea->direccion}}</td>
+                    <td>{{$tarea->estado}}</td>
+                    <td>{{$tarea->fechacreacion}}</td>
+                    <td>{{$tarea->operario}}</td>
+                    <td>{{$tarea->fecharealizacion}}</td>
+                    <td>{{$tarea->anotacionanterior}}</td>
+                    <td>{{$tarea->anotacionposterior}}</td>
+                    <td>{{$tarea->descripcion}}</td>
+                    <td><a href="../assets/uploads/{{$tarea->ficheroresumen}}" target="_blank">{{$tarea->ficheroresumen}}</a></td>
+                    <td><a href="../assets/uploads/{{$tarea->fotos}}" target="_blank">{{$tarea->fotos}}</a></td>
                     <td>
                     <td>
                         Acciones
@@ -54,6 +54,9 @@
                 </tr>
             </tbody>
         </table>
+        <div>
+        <a title="Volver" class="btn btn-secondary" href="{{ url()->previous() }}">Volver al listado</a>
+        </div>
     </div>
 
 </x-layouts.app>

@@ -19,4 +19,8 @@ use App\Http\Controllers\TareaController;
 // });
 Route::view('/','welcome')->name('home');
 Route::get('/tareas', [TareaController::class, 'index'])->name('tareas.index');
+Route::get('/tareas/create', [TareaController::class, 'create'])->name('tareas.create');
+Route::post('/tareas', [TareaController::class, 'store'])->name('tareas.store');
 Route::get('/tareas/{tarea}', [TareaController::class, 'show'])->name('tareas.show');
+Route::get('/tareas/{tarea}/edit', [TareaController::class, 'edit'])->name('tareas.edit');
+Route::patch('/tareas/{tarea}', [TareaController::class, 'update'])->name('tareas.update');

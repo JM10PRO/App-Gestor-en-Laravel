@@ -7,27 +7,28 @@
             <thead>
                 <tr>
                     <td>Id</td>
-                    <td>NIF</td>
+                    <!-- <td>NIF</td> -->
                     <td>Persona de contacto</td>
                     <td>Estado de la tarea</td>
                     <td>Operario</td>
                     <td>Fecha de realización</td>
-                    <td>Descripción</td>
+                    <!-- <td>Descripción</td> -->
                     <td>Opciones</td>
                 </tr>
             </thead>
             <tbody class="table-group-divider">
                 @foreach($tareas as $tarea)
                 <tr>
-                    <td>{{$tarea['id']}}</td>
-                    <td>{{$tarea['nif']}}</td>
-                    <td>{{$tarea['personacontacto']}}</td>
-                    <td>{{$tarea['estado']}}</td>
-                    <td>{{$tarea['operario']}}</td>
-                    <td>{{$tarea['fecharealizacion']}}</td>
-                    <td>{{$tarea['descripcion']}}</td>
+                    <td>{{$tarea->id}}</td>
+                    {{-- <!-- <td>{{$tarea->nif}}</td> --> --}}
+                    <td>{{$tarea->personacontacto}}</td>
+                    <td>{{$tarea->estado}}</td>
+                    <td>{{$tarea->operario}}</td>
+                    <td>{{$tarea->fecharealizacion}}</td>
+                    {{-- <!-- <td>{{$tarea->descripcion}}</td> --> --}}
                     <td>
-                        <a class="btn btn-secondary" href="{{ route('tareas.show', $tarea) }}"></a>
+                        <a title="Detalles" class="btn btn-secondary" href="{{ route('tareas.show', $tarea) }}">@lang('Details')</a>
+                        <a title="Detalles" class="btn btn-primary" href="{{ route('tareas.edit', $tarea) }}">@lang('Editar')</a>
                     </td>
                 </tr>
                 @endforeach

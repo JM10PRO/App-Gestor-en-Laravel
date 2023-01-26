@@ -13,7 +13,7 @@
                     <a class="nav-link" href="{{ route('tareas.index') }}">Lista de Tareas</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
+                    <a class="nav-link" href="{{ route('tareas.create') }}">Crear tarea</a>
                   </li>
                   <li class="nav-item">
                     <a class="nav-link disabled">Disabled</a>
