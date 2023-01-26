@@ -16,7 +16,7 @@ class CreateCuotasTable extends Migration
         Schema::create('cuotas', function (Blueprint $table) {
             $table->integer('id');
             $table->string('concepto');
-            $table->date('fecha_emision')->default('current_timestamp()');
+            $table->date('fecha_emision');
             $table->integer('importe');
             $table->string('pagado', 2);
             $table->date('fecha_pago');

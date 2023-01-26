@@ -24,3 +24,8 @@ Route::post('/tareas', [TareaController::class, 'store'])->name('tareas.store');
 Route::get('/tareas/{tarea}', [TareaController::class, 'show'])->name('tareas.show');
 Route::get('/tareas/{tarea}/edit', [TareaController::class, 'edit'])->name('tareas.edit');
 Route::patch('/tareas/{tarea}', [TareaController::class, 'update'])->name('tareas.update');
+
+Route::get('/login', function () {
+    return 'Login Page';
+})->name('login');
+Route::view('/register', 'auth.register')->name('register');

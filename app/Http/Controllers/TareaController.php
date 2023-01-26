@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SaveTareaRequest;
-use App\Models\Provincia;
+use Carbon\Carbon;
 use App\Models\Tarea;
+use App\Models\Provincia;
 use Illuminate\Http\Request;
+use App\Http\Requests\SaveTareaRequest;
 
 class TareaController extends Controller
 {
@@ -41,9 +42,9 @@ class TareaController extends Controller
     {
         Tarea::create($request->validated());
 
-        session()->flash('status', 'La tarea se ha registrado correctamente');
-        
-        return to_route('tareas.index');
+        // session()->flash('status', 'La tarea se ha registrado correctamente');
+        // con With enviamos el mensaje flash
+        return to_route('tareas.index')->with('status', 'La tarea se ha registrado correctamente');
     }
 
     /**

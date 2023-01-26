@@ -1,7 +1,7 @@
-<x-layouts.app title="Tareas" meta-description="Tareas meta description">
+<x-layouts.app title="Tarea {{ $tarea->id }}" meta-description="Tareas meta description">
 
     <h1>Detalles de la tarea {{ $tarea->id }}</h1>
-    
+ 
     <div class="table-responsive">
         <table class="table table-striped table-hover">
             <thead>

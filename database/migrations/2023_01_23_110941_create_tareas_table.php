@@ -37,6 +37,8 @@ class CreateTareasTable extends Migration
             
             $table->foreign('cliente_id', 'fk_tareas_clientes')->references('id')->on('clientes')->onDelete('restrict')->onUpdate('restrict');
             $table->foreign('user_id', 'fk_tareas_users1')->references('id')->on('users')->onDelete('restrict')->onUpdate('restrict');
+
+            $table->timestamps();
         });
     }
 

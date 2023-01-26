@@ -70,7 +70,7 @@
             <legend>Datos de la tarea</legend>
             <div class="mb-3">
                 <label for="direccion" class="form-label">Dirección:</label>
-                <input type="text" name="direccion" id="direccion" class="form-control" value="{{old('direccion')}}">
+                <input type="text" name="direccion" id="direccion" class="form-control" value="{{old('direccion', $tarea->direccion)}}">
                 @error('direccion')
                     <small class="feedback">{{ "Debe rellenar este campo" }}</small>
                 @enderror
@@ -86,7 +86,7 @@
 
             <div class="mb-3">
                 <label for="operario" class="form-label">Operario encargado:</label>
-                <input type="text" name="operario" id="operario" class="form-control" value="{{old('operario')}}">
+                <input type="text" name="operario" id="operario" class="form-control" value="{{old('operario', $tarea->operario)}}">
                 @error('operario')
                     <small class="feedback">{{ "Debe contener al menos 2 caracteres." }}</small>
                 @enderror
@@ -134,7 +134,7 @@
 
             <div class="mb-3">
                 <label for="descripcion">Descripción de la tarea:</label>
-                <textarea name="descripcion" id="descripcion" class="form-control" cols="30" rows="10" placeholder="Añade una descripción de la tarea..." value="{{old('descripcion', $tarea->descripcion)}}"></textarea>
+                <textarea name="descripcion" id="descripcion" class="form-control" cols="30" rows="10" placeholder="Añade una descripción de la tarea...">{{old('descripcion', $tarea->descripcion)}}</textarea>
                 @error('descripcion')
                     <small class="feedback">{{ "Debe escribir la descripción de la tarea" }}</small>
                 @enderror
@@ -161,5 +161,5 @@
     </div>
 </div>
 <div class="row mt-4 mx-auto justify-content-between">
-    <input type="submit" name="submit" class="btn btn-secondary" value="Registrar tarea">
+    <input type="submit" name="submit" class="btn btn-secondary" value="Guardar tarea">
 </div>

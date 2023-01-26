@@ -20,7 +20,7 @@ class CreateEmpleadosTable extends Migration
             $table->string('correo', 50);
             $table->integer('telefono');
             $table->string('direccion', 50);
-            $table->timestamp('fecha_alta')->default('current_timestamp()');
+            $table->timestamp('fecha_alta');
             $table->string('tipo', 10);
         });
     }
