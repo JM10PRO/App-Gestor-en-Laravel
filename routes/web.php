@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TareaController;
 
@@ -25,7 +26,6 @@ Route::get('/tareas/{tarea}', [TareaController::class, 'show'])->name('tareas.sh
 Route::get('/tareas/{tarea}/edit', [TareaController::class, 'edit'])->name('tareas.edit');
 Route::patch('/tareas/{tarea}', [TareaController::class, 'update'])->name('tareas.update');
 
-Route::get('/login', function () {
-    return 'Login Page';
-})->name('login');
 Route::view('/register', 'auth.register')->name('register');
+Route::view('/login', 'auth.login')->name('login');
+Route::post('/register', [RegisteredUserController::class, 'store']);

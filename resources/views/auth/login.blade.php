@@ -1,27 +1,13 @@
 <x-layouts.app
-    title="Register"
-    meta-description="Register meta description"
+    title="Login"
+    meta-description="Login meta description"
 >
-    <h1 class="">Register</h1>
+    <h1 class="">Login</h1>
 
-    <form class="" action="{{ route('register') }}" method="POST">
+    <form class="" action="{{ route('login') }}" method="POST">
         @csrf
 
         <div class="">
-            <label class="">
-                <span class="">
-                    Name
-                </span>
-                <input class=""
-                       autofocus="autofocus"
-                       name="name"
-                       type="text"
-                       value="{{ old('name') }}"
-                >
-                @error('name')
-                <small class="">{{ $message }}</small>
-                @enderror
-            </label>
             <label class="">
                 <span class="">
                     Email
@@ -48,26 +34,23 @@
                 @enderror
             </label>
             <label class="">
-                <span class="">
-                    Password Confirmation
-                </span>
                 <input class=""
-                       name="password_confirmation"
-                       type="password"
+                       name="remember"
+                       type="checkbox"
                 >
-                @error('password_confirmation')
-                <small class="">{{ $message }}</small>
-                @enderror
+                <span class="">
+                    Recuérdame
+                </span>
             </label>
         </div>
 
         <div class="">
-            <a class="" href="{{ route('login') }}">
-                Login
+            <a class="" href="{{ route('register') }}">
+                Register
             </a>
 
             <button class="" type="submit">
-                Register
+                Login
             </button>
         </div>
     </form>

@@ -16,6 +16,7 @@ class CreateComunidadesautonomasTable extends Migration
         Schema::create('comunidadesautonomas', function (Blueprint $table) {
             $table->boolean('id')->default(0)->primary();
             $table->string('nombre', 50)->default('')->index('nombre');
+            $table->unsignedSmallInteger('pais_id')->index('fk_comunidadesautonomas_paises1_idx');
         });
     }
 

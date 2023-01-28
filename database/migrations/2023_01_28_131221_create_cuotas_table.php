@@ -16,14 +16,12 @@ class CreateCuotasTable extends Migration
         Schema::create('cuotas', function (Blueprint $table) {
             $table->integer('id');
             $table->string('concepto');
-            $table->date('fecha_emision');
+            $table->date('fecha_emision')->default('current_timestamp()');
             $table->integer('importe');
             $table->string('pagado', 2);
             $table->date('fecha_pago');
             $table->string('notas');
-            $table->integer('cliente_id');
-            
-            $table->foreign('cliente_id', 'fk_cuotas_clientes1')->references('id')->on('clientes')->onDelete('restrict')->onUpdate('restrict');
+            $table->integer('cliente_id')->index('fk_cuotas_clientes1_idx');
         });
     }
 
