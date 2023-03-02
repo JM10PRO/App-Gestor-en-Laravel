@@ -1,75 +1,52 @@
-<x-layouts.app
-    title="Register"
-    meta-description="Register meta description"
->
-    <h1 class="">Register</h1>
-
-    <form class="" action="{{ route('register') }}" method="POST">
+<x-guest-layout>
+    <form method="POST" action="{{ route('register') }}">
         @csrf
 
-        <div class="">
-            <label class="">
-                <span class="">
-                    Name
-                </span>
-                <input class=""
-                       autofocus="autofocus"
-                       name="name"
-                       type="text"
-                       value="{{ old('name') }}"
-                >
-                @error('name')
-                <small class="">{{ $message }}</small>
-                @enderror
-            </label>
-            <label class="">
-                <span class="">
-                    Email
-                </span>
-                <input class=""
-                       name="email"
-                       type="email"
-                       value="{{ old('email') }}"
-                >
-                @error('email')
-                <small class="">{{ $message }}</small>
-                @enderror
-            </label>
-            <label class="">
-                <span class="">
-                    Password
-                </span>
-                <input class=""
-                       name="password"
-                       type="password"
-                >
-                @error('password')
-                <small class="">{{ $message }}</small>
-                @enderror
-            </label>
-            <label class="">
-                <span class="">
-                    Password Confirmation
-                </span>
-                <input class=""
-                       name="password_confirmation"
-                       type="password"
-                >
-                @error('password_confirmation')
-                <small class="">{{ $message }}</small>
-                @enderror
-            </label>
+        <!-- Name -->
+        <div>
+            <x-input-label for="name" :value="__('Name')" />
+            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
+            <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
-        <div class="">
-            <a class="" href="{{ route('login') }}">
-                Login
+        <!-- Email Address -->
+        <div class="mt-4">
+            <x-input-label for="email" :value="__('Email')" />
+            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        </div>
+
+        <!-- Password -->
+        <div class="mt-4">
+            <x-input-label for="password" :value="__('Password')" />
+
+            <x-text-input id="password" class="block mt-1 w-full"
+                            type="password"
+                            name="password"
+                            required autocomplete="new-password" />
+
+            <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="mt-4">
+            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+
+            <x-text-input id="password_confirmation" class="block mt-1 w-full"
+                            type="password"
+                            name="password_confirmation" required autocomplete="new-password" />
+
+            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        </div>
+
+        <div class="flex items-center justify-end mt-4">
+            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
+                {{ __('Already registered?') }}
             </a>
 
-            <button class="" type="submit">
-                Register
-            </button>
+            <x-primary-button class="ml-4">
+                {{ __('Register') }}
+            </x-primary-button>
         </div>
     </form>
-
-</x-layouts.app>
+</x-guest-layout>

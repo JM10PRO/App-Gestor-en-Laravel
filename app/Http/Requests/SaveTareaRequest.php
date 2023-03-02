@@ -35,7 +35,7 @@ class SaveTareaRequest extends FormRequest
             'fechacreacion' => [''],
             'operario' => ['min:2'],
             'fecharealizacion' => ['required'],
-            'anotacionanterior' => [''],
+            'anotacionanterior' => ['required'],
             'anotacionposterior' => [''],
             'estado' => ['required'],
             'descripcion' => ['required'],

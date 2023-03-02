@@ -78,7 +78,7 @@
 
             <div class="mb-3">
                 <label for="fechacreacion" class="form-label">Fecha de creación de la tarea:</label>
-                <input type="text" name="fechacreacion" id="fechacreacion" class="form-control" readonly value="{{ date('d-m-Y') }}">
+                <input type="text" name="fechacreacion" id="fechacreacion" class="form-control" readonly value="{{ date('Y-m-d') }}">
                 @error('fechacreacion')
                     <small class="feedback">{{ "Falta la fecha de realización" }}</small>
                 @enderror

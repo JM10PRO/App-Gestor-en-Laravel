@@ -9,12 +9,20 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Home</a>
                 </li>
+                @auth
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('tareas.index') }}">Lista de Tareas</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('tareas.create') }}">Crear tarea</a>
                 </li>
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <li class="nav-item">
+                      <a href="#" class="nav-link" onclick="this.closest('form').submit()">Logout</a>
+                    </li>
+                </form>
+                @endauth
                 @guest
                   <li class="nav-item">
                       <a class="nav-link" href="{{ route('register') }}">Register</a>
@@ -23,14 +31,6 @@
                       <a class="nav-link" href="{{ route('login') }}">Login</a>
                   </li>
                 @endguest
-                @auth
-                  <form action="{{ route('logout') }}" method="POST">
-                      @csrf
-                      <li class="nav-item">
-                        <a href="#" class="nav-link" onclick="this.closest('form').submit()">Logout</a>
-                      </li>
-                  </form>
-                @endauth
             </ul>
         </div>
     </div>

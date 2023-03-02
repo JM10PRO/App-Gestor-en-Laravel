@@ -7,6 +7,7 @@ use App\Models\Tarea;
 use App\Models\Provincia;
 use Illuminate\Http\Request;
 use App\Http\Requests\SaveTareaRequest;
+use DateTime;
 
 class TareaController extends Controller
 {
@@ -18,6 +19,12 @@ class TareaController extends Controller
     public function index()
     {
         $tareas = Tarea::paginate(10);
+        foreach ($tareas as $tarea) {
+            $fecha_mysql = $tarea->fecharealizacion;
+            $objeto_DateTime = DateTime::createFromFormat('Y-m-d', $fecha_mysql);
+            $fecha_nuevo_formato = $objeto_DateTime->format("d/m/Y");
+            $tarea->fecharealizacion = $fecha_nuevo_formato;
+        }
         return view('tareas.index', ['tareas' => $tareas]);
     }
 
@@ -29,7 +36,7 @@ class TareaController extends Controller
     public function create()
     {
         $provincias = Provincia::get();
-        return view('tareas.create', ['tarea' => new Tarea(),'provincias' => $provincias]);
+        return view('tareas.create', ['tarea' => new Tarea(), 'provincias' => $provincias]);
     }
 
     /**
@@ -39,7 +46,7 @@ class TareaController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(SaveTareaRequest $request)
-    {
+    {   
         Tarea::create($request->validated());
 
         // session()->flash('status', 'La tarea se ha registrado correctamente');
@@ -55,6 +62,14 @@ class TareaController extends Controller
      */
     public function show(Tarea $tarea)
     {
+        $fecha_realizacion = $tarea->fecharealizacion;
+        $objeto_DateTime = DateTime::createFromFormat('Y-m-d', $fecha_realizacion);
+        $fecha_nuevo_formato = $objeto_DateTime->format("d/m/Y");
+        $tarea->fecharealizacion = $fecha_nuevo_formato;
+        $fecha_creacion = $tarea->fechacreacion;
+        $objeto_DateTime = DateTime::createFromFormat('Y-m-d', $fecha_creacion);
+        $fecha2_nuevo_formato = $objeto_DateTime->format("d/m/Y");
+        $tarea->fechacreacion = $fecha2_nuevo_formato;
         return view('tareas.show', ['tarea' => $tarea]);
     }
 
