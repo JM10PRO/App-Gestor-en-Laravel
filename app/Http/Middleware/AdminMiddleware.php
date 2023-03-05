@@ -16,6 +16,13 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
+        if(!auth()->check()){
+            return redirect('login');
+        }
+
+        if(auth()->user()->role != 0){ // not an admin
+            return redirect('home');
+        }
         return $next($request);
     }
 }

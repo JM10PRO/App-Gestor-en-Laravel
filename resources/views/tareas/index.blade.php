@@ -23,12 +23,15 @@
                     {{-- <!-- <td>{{$tarea->nif}}</td> --> --}}
                     <td>{{$tarea->personacontacto}}</td>
                     <td>{{$tarea->estado}}</td>
-                    <td>{{$tarea->operario}}</td>
+                    <td>{{$tarea->operario ?: 'No se ha indicado'}}</td>
                     <td>{{$tarea->fecharealizacion}}</td>
                     {{-- <!-- <td>{{$tarea->descripcion}}</td> --> --}}
                     <td>
                         <a title="Detalles" class="btn btn-secondary" href="{{ route('tareas.show', $tarea) }}">@lang('Details')</a>
                         <a title="Detalles" class="btn btn-primary" href="{{ route('tareas.edit', $tarea) }}">@lang('Editar')</a>
+                        @auth(Auth::user()->is_admin == 'admin')
+                            <a title="Detalles" class="btn btn-danger" href="{{ route('tareas.deleteconfirmation', $tarea) }}">@lang('Borrar')</a>   
+                        @endauth
                     </td>
                 </tr>
                 @endforeach

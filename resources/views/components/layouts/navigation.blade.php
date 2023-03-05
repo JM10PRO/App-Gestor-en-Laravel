@@ -5,24 +5,37 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav d-flex align-items-center">
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Home</a>
                 </li>
-                @auth
-                <li class="nav-item">
+                <!-- {{-- <li class="nav-item">
                     <a class="nav-link" href="{{ route('tareas.index') }}">Lista de Tareas</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('tareas.create') }}">Crear tarea</a>
-                </li>
-                <form action="{{ route('logout') }}" method="POST">
-                    @csrf
-                    <li class="nav-item">
-                      <a href="#" class="nav-link" onclick="this.closest('form').submit()">Logout</a>
-                    </li>
-                </form>
-                @endauth
+                </li> --}} -->
+                @if(Auth::check() && Auth::user()->isAdmin())
+                    <div class="dropdown">
+                        <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Gestionar Tareas</button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('tareas.index') }}">Listar tareas</a></li>
+                            <li><a class="dropdown-item" href="{{ route('tareas.create') }}">Crear tarea</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </div>
+                    <div class="dropdown">
+                        <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Gestionar empleados</button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ route('tareas.index') }}">Listar tareas</a></li>
+                            <li><a class="dropdown-item" href="{{ route('tareas.create') }}">Crear tarea</a></li>
+                            <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        </ul>
+                    </div>
+                @endif
+                @if(Auth::check() && Auth::user()->isOperario())
+                    Soy operario
+                @endif
                 @guest
                   <li class="nav-item">
                       <a class="nav-link" href="{{ route('register') }}">Register</a>
@@ -31,6 +44,18 @@
                       <a class="nav-link" href="{{ route('login') }}">Login</a>
                   </li>
                 @endguest
+                @auth
+                    <form action="{{ route('logout') }}" method="POST">
+                        @csrf
+                        <li class="nav-item">
+                        <a href="/logout" class="nav-link text-danger" onclick="this.closest('form').submit();">Logout</a>
+                        </li>
+                    </form>
+                @endauth
+                @auth
+                    Usuario conectado: {{ Auth::user()->name }} <br>
+                    Rol: {{ Auth::user()->getRole() }} | Conexión: {{ session('hora'); }}  
+                @endauth
             </ul>
         </div>
     </div>

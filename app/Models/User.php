@@ -41,4 +41,34 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Check the field role in DB and return if is equal to Admin
+     *
+     * @return boolean
+     */
+    public function isAdmin()
+    {
+        return $this->role == 0;
+    }
+    
+    /**
+     * Check the field role in DB and return if is equal to Operario
+     *
+     * @return boolean
+     */
+    public function isOperario()
+    {
+        return $this->role == 1;
+    }
+
+    /**
+     * Check the field role in DB and return if is equal to Operario
+     *
+     * @return boolean
+     */
+    public function getRole()
+    {
+        return $this->role == 0 ? 'Administrador' : 'Operario';
+    }
 }

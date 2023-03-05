@@ -54,9 +54,9 @@
                 </tr>
             </tbody>
         </table>
-        <div>
+        <!-- <div>
         <a title="Volver" class="btn btn-secondary" href="{{ url()->previous() }}">Volver al listado</a>
-        </div>
+        </div> -->
     </div>
 
 </x-layouts.app>

@@ -20,12 +20,30 @@ Route::get('/', function () {
 });
 
 Route::view('/home','home')->name('home');
-Route::get('/tareas', [TareaController::class, 'index'])->name('tareas.index')->middleware('auth');
-Route::get('/tareas/create', [TareaController::class, 'create'])->name('tareas.create')->middleware('auth');
-Route::post('/tareas', [TareaController::class, 'store'])->name('tareas.store')->middleware('auth');
-Route::get('/tareas/{tarea}', [TareaController::class, 'show'])->name('tareas.show')->middleware('auth');
-Route::get('/tareas/{tarea}/edit', [TareaController::class, 'edit'])->name('tareas.edit')->middleware('auth');
-Route::patch('/tareas/{tarea}', [TareaController::class, 'update'])->name('tareas.update')->middleware('auth');
+
+Route::get('/incidencia',[TareaController::class, 'crearIncidencia'])->name('crearincidencia');
+Route::post('/incidencia', [TareaController::class, 'guardarIncidencia'])->name('guardarincidencia');
+// Route::post('/crear-incidencia')->name('crearIncidencia');
+
+Route::group(['middleware' => 'auth', 'namespace' => 'Admin'], function () {
+
+    Route::get('/tareas', [TareaController::class, 'index'])->name('tareas.index');
+    
+    Route::get('/tareas/create', [TareaController::class, 'create'])->name('tareas.create');
+    
+    Route::post('/tareas', [TareaController::class, 'store'])->name('tareas.store');
+    
+    Route::get('/tareas/{tarea}', [TareaController::class, 'show'])->name('tareas.show');
+    
+    Route::get('/tareas/{tarea}/edit', [TareaController::class, 'edit'])->name('tareas.edit');
+    
+    Route::get('/tareas/{tarea}/deleteconfirmation', [TareaController::class, 'deleteConfirmation'])->name('tareas.deleteconfirmation');
+    
+    Route::patch('/tareas/{tarea}', [TareaController::class, 'update'])->name('tareas.update');
+    
+    Route::delete('/tareas/{tarea}', [TareaController::class, 'destroy'])->name('tareas.destroy');
+});
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
