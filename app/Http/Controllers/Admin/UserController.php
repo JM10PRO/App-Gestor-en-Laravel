@@ -15,7 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $empleados = User::paginate(5);
+        $empleados = User::paginate(2);
         foreach ($empleados as $empleado) {
             $rol = $empleado->role;
             if($rol == 0){

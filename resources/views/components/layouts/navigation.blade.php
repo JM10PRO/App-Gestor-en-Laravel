@@ -24,7 +24,6 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ route('clientes.index') }}">Listar clientes</a></li>
                                 <li><a class="dropdown-item" href="{{ route('clientes.create') }}">Dar de alta</a></li>
-                                <li><a class="dropdown-item" href="#">Dar de baja</a></li>
                             </ul>
                         </div>
                         <div class="dropdown">

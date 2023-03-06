@@ -56,8 +56,6 @@ Route::group(['middleware' => 'admin', 'namespace' => 'Admin'], function () {
 
     Route::get('/clientes/{cliente}', [ClienteController::class, 'show'])->name('clientes.show');
 
-    Route::get('/clientes/{cliente}/edit', [ClienteController::class, 'edit'])->name('clientes.edit');
-
     Route::delete('/clientes/{cliente}', [ClienteController::class, 'destroy'])->name('clientes.destroy');
 
     // Admin Empleados

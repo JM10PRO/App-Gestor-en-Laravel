@@ -20,7 +20,7 @@ class OperarioTareaController extends Controller
      */
     public function index()
     {
-        $tareas = Tarea::where('user_id', Auth::user()->id)->orderByDesc('fechacreacion')->paginate(5);
+        $tareas = Tarea::where('user_id', Auth::user()->id)->orderByDesc('fechacreacion')->paginate(2);
         foreach ($tareas as $tarea) {
             $fecha_mysql = $tarea->fecharealizacion;
             $objeto_DateTime = DateTime::createFromFormat('Y-m-d', $fecha_mysql);

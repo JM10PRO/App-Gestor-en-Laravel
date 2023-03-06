@@ -26,10 +26,6 @@
                     <td>{{$cliente->cuota_mensual}}</td>
                     <td>
                         <a title="Detalles" class="btn btn-secondary" href="{{ route('clientes.show', $cliente) }}">@lang('Details')</a>
-                        <a title="Detalles" class="btn btn-primary" href="{{ route('clientes.edit', $cliente) }}">@lang('Editar')</a>
-                        @auth(Auth::user()->is_admin == 'admin')
-                            <a title="Detalles" class="btn btn-danger" href="{{ route('clientes.destroy', $cliente) }}">@lang('Borrar')</a>   
-                        @endauth
                     </td>
                 </tr>
                 @endforeach

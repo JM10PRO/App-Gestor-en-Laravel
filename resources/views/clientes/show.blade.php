@@ -30,9 +30,30 @@
                     <td>{{$moneda}}</td>
                     <td>{{$cliente->cuota_mensual}}</td>
                     <td>
-                        <a title="Detalles" class="btn btn-primary" href="{{ route('clientes.edit', $cliente) }}">@lang('Editar')</a>
                         @auth(Auth::user()->is_admin == 'admin')
-                            <a title="Detalles" class="btn btn-danger" href="{{ route('clientes.destroy', $cliente) }}">@lang('Borrar')</a>   
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Borrar
+                            </button>
+                            
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Borrar cliente</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                    ¿Está seguro que desea borrar este cliente?
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <a title="Borrar" class="btn btn-danger" href="{{ route('clientes.destroy', $cliente) }}">@lang('Borrar')</a>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
                         @endauth
                     </td>
                 </tr>

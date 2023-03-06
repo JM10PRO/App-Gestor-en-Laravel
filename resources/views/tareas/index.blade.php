@@ -28,9 +28,36 @@
                     {{-- <!-- <td>{{$tarea->descripcion}}</td> --> --}}
                     <td>
                         <a title="Detalles" class="btn btn-secondary" href="{{ route('tareas.show', $tarea) }}">@lang('Details')</a>
-                        <a title="Detalles" class="btn btn-primary" href="{{ route('tareas.edit', $tarea) }}">@lang('Editar')</a>
+                        <a title="Editar" class="btn btn-primary" href="{{ route('tareas.edit', $tarea) }}">@lang('Editar')</a>
                         @auth(Auth::user()->is_admin == 'admin')
-                            <a title="Detalles" class="btn btn-danger" href="{{ route('tareas.deleteconfirmation', $tarea) }}">@lang('Borrar')</a>   
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Borrar
+                        </button>
+                        
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Borrar tarea</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                ¿Está seguro que desea borrar esta tarea?
+                                </div>
+                                <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <form action="{{ route('tareas.destroy', $tarea) }}" method="post">
+                                    @csrf 
+                                    @method('DELETE')
+        
+                                    <button class="btn btn-danger">@lang('Borrar')</button>
+                                </form>  
+                                </div>
+                            </div>
+                            </div>
+                        </div>  
                         @endauth
                     </td>
                 </tr>

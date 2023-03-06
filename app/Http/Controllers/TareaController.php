@@ -20,13 +20,14 @@ class TareaController extends Controller
      */
     public function index()
     {
-        $tareas = Tarea::orderByDesc('fechacreacion')->paginate(5);
+        $tareas = Tarea::orderByDesc('fechacreacion')->paginate(2);
         foreach ($tareas as $tarea) {
             $fecha_mysql = $tarea->fecharealizacion;
             $objeto_DateTime = DateTime::createFromFormat('Y-m-d', $fecha_mysql);
             $fecha_nuevo_formato = $objeto_DateTime->format("d/m/Y");
             $tarea->fecharealizacion = $fecha_nuevo_formato;
         }
+        // En la vista
         return view('tareas.index', ['tareas' => $tareas]);
     }
 
@@ -76,6 +77,8 @@ class TareaController extends Controller
     public function guardarIncidencia(SaveIncidenciaRequest $request)
     {   
         Tarea::create($request->validated());
+
+        // HAY QUE VALIDAR SI EL NFIF Y EL TLFN COINCIDE CON LA BD
 
         // session()->flash('status', 'La tarea se ha registrado correctamente');
         // con With enviamos el mensaje flash
@@ -135,28 +138,9 @@ class TareaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function deleteConfirmation(Tarea $tarea)
-    {
-        $fecha_realizacion = $tarea->fecharealizacion;
-        $objeto_DateTime = DateTime::createFromFormat('Y-m-d', $fecha_realizacion);
-        $fecha_nuevo_formato = $objeto_DateTime->format("d/m/Y");
-        $tarea->fecharealizacion = $fecha_nuevo_formato;
-        $fecha_creacion = $tarea->fechacreacion;
-        $objeto_DateTime = DateTime::createFromFormat('Y-m-d', $fecha_creacion);
-        $fecha2_nuevo_formato = $objeto_DateTime->format("d/m/Y");
-        $tarea->fechacreacion = $fecha2_nuevo_formato;
-        return view('tareas.deleteconfirmation', ['tarea' => $tarea]);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Tarea $tarea)
     {
         $tarea->delete();
-        return $tarea;
+        return to_route('tareas.index');
     }
 }
