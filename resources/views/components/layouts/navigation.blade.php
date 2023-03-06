@@ -30,8 +30,7 @@
                             <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">Gestionar empleados</button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ route('empleados.index') }}">Listar empleados</a></li>
-                                <li><a class="dropdown-item" href="{{ route('tareas.create') }}">Crear tarea</a></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                <li><a class="dropdown-item" href="{{ route('empleados.create') }}">Nuevo empleado</a></li>
                             </ul>
                         </div>
                     @endif

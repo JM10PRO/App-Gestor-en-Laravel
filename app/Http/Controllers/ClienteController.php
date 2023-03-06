@@ -17,6 +17,18 @@ class ClienteController extends Controller
     public function index()
     {
         $clientes = Cliente::paginate(5);
+        foreach ($clientes as $cliente) {
+            $id_pais = $cliente->pais_id;
+            $pais = Pais::select('nombre')->where('id', $id_pais)->first()->nombre;
+            $moneda = Pais::select('nombre_moneda')->where('id', $id_pais)->first()->nombre_moneda;
+            
+            if($moneda == null){
+                $moneda = '-';
+            }
+
+            $cliente->pais = $pais;
+            $cliente->moneda = $moneda;
+        }
         return view('clientes.index', ['clientes' => $clientes]);
     }
 
@@ -80,6 +92,6 @@ class ClienteController extends Controller
     public function destroy(Cliente $cliente)
     {
         $cliente->delete();
-        return $cliente;
+        return to_route('clientes.index');
     }
 }

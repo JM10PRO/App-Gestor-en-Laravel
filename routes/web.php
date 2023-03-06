@@ -69,6 +69,8 @@ Route::group(['middleware' => 'admin', 'namespace' => 'Admin'], function () {
 
     Route::get('/empleados/{empleado}/edit', [UserController::class, 'edit'])->name('empleados.edit');
 
+    Route::patch('/empleados/{empleado}', [TareaController::class, 'update'])->name('empleados.update');
+
     Route::delete('/empleados/{empleado}', [UserController::class, 'destroy'])->name('empleados.destroy');
 });
 
