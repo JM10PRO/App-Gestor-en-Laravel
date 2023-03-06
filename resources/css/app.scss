@@ -24,4 +24,18 @@ $body-bg: #ccc;
     color: #d70303 !important;
 }
 
+.btn.btn-link {
+    color: #e9e9e9;
+    text-decoration: none;
+    text-shadow: 1px 1px 2px black;
+}
+
+.logout {
+    text-shadow: 1px 1px 1px black;
+}
+
+.dropdown-menu {
+    background-color: #9ab1b5 !important;
+}
+
 @import 'bootstrap/scss/bootstrap';

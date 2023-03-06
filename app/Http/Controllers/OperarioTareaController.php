@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\SaveTareaRequest;
 use App\Http\Requests\SaveIncidenciaRequest;
 
-class TareaController extends Controller
+class OperarioTareaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,7 +20,7 @@ class TareaController extends Controller
      */
     public function index()
     {
-        $tareas = Tarea::orderByDesc('fechacreacion')->paginate(5);
+        $tareas = Tarea::where('user_id', Auth::user()->id)->orderByDesc('fechacreacion')->paginate(5);
         foreach ($tareas as $tarea) {
             $fecha_mysql = $tarea->fecharealizacion;
             $objeto_DateTime = DateTime::createFromFormat('Y-m-d', $fecha_mysql);
@@ -28,6 +28,14 @@ class TareaController extends Controller
             $tarea->fecharealizacion = $fecha_nuevo_formato;
         }
         return view('tareas.index', ['tareas' => $tareas]);
+        // $tareas = Tarea::paginate(10);
+        // foreach ($tareas as $tarea) {
+        //     $fecha_mysql = $tarea->fecharealizacion;
+        //     $objeto_DateTime = DateTime::createFromFormat('Y-m-d', $fecha_mysql);
+        //     $fecha_nuevo_formato = $objeto_DateTime->format("d/m/Y");
+        //     $tarea->fecharealizacion = $fecha_nuevo_formato;
+        // }
+        // return view('tareas.index', ['tareas' => $tareas]);
     }
 
     /**
