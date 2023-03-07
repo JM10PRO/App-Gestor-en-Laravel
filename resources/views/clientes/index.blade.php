@@ -95,15 +95,15 @@
                             Ver detalles
                         </button>
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalBorrarTarea">
+                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalBorrarCliente{{$cliente->id}}">
                             Borrar
                         </button>
                         <!-- Modal -->
-                        <div class="modal fade" id="modalBorrarTarea" tabindex="-1" aria-labelledby="modalBorrarCliente{{$cliente->id}}Label" aria-hidden="true">
+                        <div class="modal fade" id="modalBorrarCliente{{$cliente->id}}" tabindex="-1" aria-labelledby="modalBorrarCliente{{$cliente->id}}Label" aria-hidden="true">
                             <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="modalBorrarCliente{{$cliente->id}}Label">Borrar cliente {{ $cliente->id }}</h1>
+                                <h1 class="modal-title fs-5" id="modalBorrarCliente{{$cliente->id}}Label">Borrar cliente {{$cliente->id}} </h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">

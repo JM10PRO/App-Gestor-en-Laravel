@@ -33,6 +33,9 @@
                                 <li><a class="dropdown-item" href="{{ route('empleados.create') }}">Nuevo empleado</a></li>
                             </ul>
                         </div>
+                        <li class="nav-item">
+                            <a class="btn btn-link" aria-current="page" href="{{ route('cuotas.index') }}">Cuotas</a>
+                        </li>
                     @endif
                     @if(Auth::check() && Auth::user()->isOperario())
                         Soy operario
@@ -49,7 +52,7 @@
                         <form action="{{ route('logout') }}" method="POST">
                             @csrf
                             <li class="nav-item">
-                            <a href="/logout" class="nav-link text-danger logout" onclick="this.closest('form').submit();">Logout</a>
+                            <a href="/logout" class="nav-link text-danger logout" onclick="this.closest('form').submit();">Cerrar sesión</a>
                             </li>
                         </form>
                     @endauth

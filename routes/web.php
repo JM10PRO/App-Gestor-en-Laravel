@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TareaController;
+use App\Http\Controllers\CuotaController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\UserController;
@@ -69,9 +70,29 @@ Route::group(['middleware' => 'admin', 'namespace' => 'Admin'], function () {
 
     Route::get('/empleados/{empleado}/edit', [UserController::class, 'edit'])->name('empleados.edit');
 
-    Route::patch('/empleados/{empleado}', [TareaController::class, 'update'])->name('empleados.update');
+    Route::patch('/empleados/{empleado}', [UserController::class, 'update'])->name('empleados.update');
 
     Route::delete('/empleados/{empleado}', [UserController::class, 'destroy'])->name('empleados.destroy');
+
+    // Admin Cuotas
+    Route::get('/cuotas', [CuotaController::class, 'index'])->name('cuotas.index');
+
+    Route::post('/cuotas', [CuotaController::class, 'store'])->name('cuotas.store');
+
+    Route::get('/cuotas/mensual', [CuotaController::class, 'crearCuotaMensual'])->name('cuotas.mensual');
+
+    Route::post('/cuotas/mensual', [CuotaController::class, 'guardarCuotaMensual'])->name('cuotas.guardarCuotaMensual');
+    
+    Route::get('/cuotas/excepcional', [CuotaController::class, 'crearCuotaExcepcional'])->name('cuotas.excepcional');
+    
+    Route::post('/cuotas/excepcional', [CuotaController::class, 'guardarCuotaExcepcional'])->name('cuotas.guardarCuotaExcepcional');
+
+    Route::get('/cuotas/{cuota}/edit', [CuotaController::class, 'edit'])->name('cuotas.edit');
+
+    Route::patch('/cuotas/{cuota}', [CuotaController::class, 'update'])->name('cuotas.update');
+
+    Route::delete('/cuotas/{cuota}', [CuotaController::class, 'destroy'])->name('cuotas.destroy');
+    
 });
 
 Route::group(['middleware' => 'auth'], function () {

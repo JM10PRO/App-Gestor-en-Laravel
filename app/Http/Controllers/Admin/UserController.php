@@ -84,9 +84,25 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(SaveEmpleadoRequest $request, User $empleado)
+    public function update(User $empleado)
     {
-        $empleado->update($request->validated());
+        $datos = request()->validate([
+            'name' => 'required',
+            'nif' => 'required',
+            'email' => 'required|email',
+            'password' => '',
+            'telefono' => 'required',
+            'direccion' => 'required',
+            'role' => 'required',
+        ]);
+
+        if($datos['password'] != null){
+            $datos['password'] = Hash::make($datos['password']);
+        }else {
+            unset($datos['password']);
+        }
+
+        $empleado->update($datos);
 
         session()->flash('status', 'El empleado se ha actualizado correctamente');
 

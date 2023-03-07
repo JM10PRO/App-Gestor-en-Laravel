@@ -34,7 +34,7 @@
     @enderror
 </div>
 <div class="mb-3">
-    <label for="telefono" class="form-label">Telefono:</label>
+    <label for="telefono" class="form-label">Teléfono:</label>
     <input type="telefono" id="telefono" name="telefono" placeholder="telefono" class="form-control" value="{{old('telefono', $empleado->telefono)}}">
     @error('telefono')
         <small class="feedback">{{ "Debe rellenar este campo" }}</small>
