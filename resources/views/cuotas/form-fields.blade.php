@@ -8,16 +8,25 @@
     </div>
 </div>
 <div class="row">
-    <div class="col col-4">
+    <div class="col col-3">
         <div class="mb-3">
-            <label for="fecha_emision" class="form-label">Fecha emision</label>
+            <label for="fecha_emision" class="form-label">Fecha de emisión</label>
             <input type="date" name="fecha_emision" id="fecha_emision" class="form-control" value="{{ old('fecha_emision', $cuota->fecha_emision) }}">
             @error('fecha_emision')
                 <small class="feedback">{{ "Falta la fecha de emisión" }}</small>
             @enderror
         </div>
     </div>
-    <div class="col col-4">
+    <div class="col col-3">
+        <div class="mb-3">
+            <label for="fecha_pago" class="form-label">Fecha de pago</label>
+            <input type="date" name="fecha_pago" id="fecha_pago" class="form-control" value="{{ old('fecha_pago', $cuota->fecha_pago) }}">
+            @error('fecha_pago')
+                <small class="feedback">{{ "Falta la fecha de emisión" }}</small>
+            @enderror
+        </div>
+    </div>
+    <div class="col col-3">
         <div class="mb-3">
             <label for="importe" class="form-label">Importe</label>
             <input type="number" name="importe" id="importe" class="form-control" value="{{ old('importe', $cuota->importe) }}">
@@ -26,7 +35,7 @@
             @enderror
         </div>
     </div>
-    <div class="col col-4">
+    <div class="col col-3">
         <div class="mb-3">
             <label for="cliente_id" class="form-label">Cliente</label>
             <select name="cliente_id" id="cliente_id" class="form-control" value="{{ old('cliente_id', $cuota->cliente_id) }}">

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DateTime;
 use Carbon\Carbon;
 use App\Models\Tarea;
+use Carbon\Traits\Date;
 use App\Models\Provincia;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -61,6 +62,7 @@ class TareaController extends Controller
      */
     public function store(SaveTareaRequest $request)
     {   
+        $request['fechacreacion'] = new Date();
         Tarea::create($request->validated());
 
         // session()->flash('status', 'La tarea se ha registrado correctamente');

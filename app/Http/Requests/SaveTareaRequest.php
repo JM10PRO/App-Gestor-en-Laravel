@@ -24,23 +24,23 @@ class SaveTareaRequest extends FormRequest
     public function rules()
     {
         return [
-            'nif' => ['required'],
-            'personacontacto' => ['required'],
-            'telefono' => ['required'],
-            'correo' => ['required'],
-            'poblacion' => ['required'],
-            'codpostal' => ['required'],
-            'provincia' => ['required'],
-            'direccion' => ['required'],
-            'fechacreacion' => [''],
-            'operario' => ['min:2'],
-            'fecharealizacion' => ['required'],
-            'anotacionanterior' => ['required'],
-            'anotacionposterior' => [''],
-            'estado' => ['required'],
-            'descripcion' => ['required'],
-            'ficheroresumen' => ['nullable'],
-            'fotos' => ['nullable']
+            'nif' => 'required',
+            'personacontacto' => 'required',
+            'telefono' => 'required',
+            'correo' => 'required',
+            'poblacion' => 'required',
+            'codpostal' => 'required',
+            'provincia' => 'required',
+            'direccion' => 'required',
+            'fechacreacion' => '',
+            'operario' => 'min:2',
+            'fecharealizacion' => 'required|date',
+            'anotacionanterior' => 'required',
+            'anotacionposterior' => '',
+            'estado' => 'required',
+            'descripcion' => 'required',
+            'ficheroresumen' => 'nullable',
+            'fotos' => 'nullable'
         ];
     }
 }

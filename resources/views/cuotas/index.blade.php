@@ -39,6 +39,7 @@
                                     @endforeach    
                                 </td>
                                 <td>
+                                    <a href="{{ route('cuotas.generarFactura', $cuota) }}" class="btn btn-primary">Factura</a>
                                     <a href="{{ route('cuotas.edit', $cuota) }}" class="btn btn-primary">Editar</a>
                                     <!-- Botón borrar confirmación con modal -->
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalBorrarCuota{{$cuota->id}}">

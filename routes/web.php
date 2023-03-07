@@ -87,6 +87,8 @@ Route::group(['middleware' => 'admin', 'namespace' => 'Admin'], function () {
     
     Route::post('/cuotas/excepcional', [CuotaController::class, 'guardarCuotaExcepcional'])->name('cuotas.guardarCuotaExcepcional');
 
+    Route::get('/cuotas/{cuota}/factura', [CuotaController::class, 'generarFacturaPDF'])->name('cuotas.generarFactura');
+
     Route::get('/cuotas/{cuota}/edit', [CuotaController::class, 'edit'])->name('cuotas.edit');
 
     Route::patch('/cuotas/{cuota}', [CuotaController::class, 'update'])->name('cuotas.update');

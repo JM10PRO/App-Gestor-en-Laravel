@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Cuota;
 use App\Models\Cliente;
+use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
 
 class CuotaController extends Controller
@@ -22,6 +23,31 @@ class CuotaController extends Controller
             'cuotas' => $cuotas,
             'clientes' => $clientes
         ]);
+    }
+
+    /**
+     * Crear factura PDF
+     *
+     * @return void
+     */
+    public function generarFacturaPDF(Cuota $cuota){
+        // $cuota_cliente_id = $cuota->cliente_id;
+        $nombre_cliente = Cliente::select('nombre')->where('id', $cuota->cliente_id)->first()->nombre;
+        $fecha_e = explode('-', $cuota->fecha_emision);
+        $fecha_emision = implode("/", [$fecha_e[2],$fecha_e[1],$fecha_e[0]]);
+
+        if($cuota->fecha_pago != null){
+            $fecha_p = explode('-', $cuota->fecha_pago);
+            $fecha_pago = implode("/", [$fecha_p[2],$fecha_p[1],$fecha_p[0]]); 
+        }else {
+            $fecha_pago = $cuota->fecha_pago;
+        }
+
+        return view('cuotas.factura', ['cuota' => $cuota, 'pagador' => $nombre_cliente, 'fecha_emision' => $fecha_emision, 'fecha_pago' => $fecha_pago]);
+        // return $cuota;
+        // view()->share('productos', $productos);
+        // $pdf = PDF::loadView('index', $productos);
+        // return $pdf->download('archivo-pdf.pdf');
     }
 
     /**
@@ -77,11 +103,12 @@ class CuotaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function guardarCuotaExcepcional(Cuota $cuota, )
+    public function guardarCuotaExcepcional(Cuota $cuota)
     {
         $datos = request()->validate([
             'concepto' => 'required',
             'fecha_emision' => 'required',
+            'fecha_pago' => 'required|date|after_or_equal:fecha_emision',
             'importe' => 'required|numeric',
             'cliente_id' => 'required',
             'notas' => 'required',
