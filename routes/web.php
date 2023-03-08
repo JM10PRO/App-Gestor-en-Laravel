@@ -1,11 +1,15 @@
 <?php
 
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TareaController;
+use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\CuotaController;
+use App\Http\Controllers\TareaController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\LoginGoogleController;
 use App\Http\Controllers\OperarioTareaController;
 
 /*
@@ -26,8 +30,44 @@ Route::get('/', function () {
 Route::view('/home','home')->name('home');
 
 Route::get('/incidencia',[TareaController::class, 'crearIncidencia'])->name('crearincidencia');
+
 Route::post('/incidencia', [TareaController::class, 'guardarIncidencia'])->name('guardarincidencia');
 // Route::post('/crear-incidencia')->name('crearIncidencia');
+
+// Login Google
+Route::get('/login-google', [LoginGoogleController::class, 'googleRedirect'])->name('login-google');
+ 
+Route::get('/google-callback', [LoginGoogleController::class, 'googleCallback']);
+
+
+// Login GitHub
+Route::get('/login-github', function () {
+    return Socialite::driver('github')->redirect();
+})->name('login-github');
+ 
+Route::get('/github-callback', function () {
+    $user = Socialite::driver('github')->user();
+
+    $user_exits = User::where('email', $user->email)->where('external_auth', 'github')->first();
+
+    if($user_exits){
+        Auth::login($user_exits);
+        return to_route('home');
+
+    }else{
+        $user_new = User::create([
+            'name' => $user->name,
+            'email' => $user->email,
+            'external_id' => $user->id,
+            'external_auth' => 'github',
+        ]);
+
+        Auth::login($user_new);
+
+        return to_route('home');
+
+    }
+});
 
 Route::group(['middleware' => 'admin', 'namespace' => 'Admin'], function () {
 
