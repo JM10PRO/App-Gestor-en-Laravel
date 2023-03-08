@@ -52,9 +52,10 @@ class ClienteController extends Controller
     public function store(SaveClienteRequest $request)
     {
         $pais = $request->pais_id;
-        $moneda = Pais::select('iso_moneda')->where('id', $pais)->first();
+        $moneda = Pais::select('iso_moneda')->where('id', $pais)->first()->iso_moneda;
         // $request['moneda'] = $moneda;
-        $request['moneda'] = $moneda;
+        // $request['moneda'] = $moneda;
+        // return $request;
         Cliente::create($request->validated());
 
         return to_route('clientes.index', [])->with('status', 'El cliente se ha agregado correctamente');

@@ -1,4 +1,4 @@
-<x-layouts.app title="empleados" meta-description="empleados meta description">
+<x-layouts.app title="Empleados" meta-description="Empleados meta description">
 
     <h1>Listado de empleados</h1>
 

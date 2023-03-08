@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Pais;
 use App\Models\Cuota;
 use App\Models\Cliente;
 use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
+use App\Mail\MessageReceived;
+use Illuminate\Support\Facades\Mail;
 
 class CuotaController extends Controller
 {
@@ -16,9 +19,20 @@ class CuotaController extends Controller
      */
     public function index()
     {
-        $cuotas = Cuota::orderByDesc('fecha_emision')->paginate(2);
+        $cuotas = Cuota::orderByDesc('fecha_emision')->paginate(5);
         $clientes = Cliente::get()->all();
-        
+        foreach ($clientes as $cliente) {
+            $id_pais = $cliente->pais_id;
+            $pais = Pais::select('nombre')->where('id', $id_pais)->first()->nombre;
+            $moneda = Pais::select('nombre_moneda')->where('id', $id_pais)->first()->nombre_moneda;
+            
+            if($moneda == null){
+                $moneda = '-';
+            }
+
+            $cliente->pais = $pais;
+            $cliente->moneda = $moneda;
+        }
         return view('cuotas.index', [
             'cuotas' => $cuotas,
             'clientes' => $clientes
@@ -42,12 +56,15 @@ class CuotaController extends Controller
         }else {
             $fecha_pago = $cuota->fecha_pago;
         }
+        
+        $datos = ['cuota' => $cuota, 'pagador' => $nombre_cliente, 'fecha_emision' => $fecha_emision, 'fecha_pago' => $fecha_pago];
+        // view()->share(['cuota' => $cuota, 'pagador' => $nombre_cliente, 'fecha_emision' => $fecha_emision, 'fecha_pago' => $fecha_pago]);
+        $pdf = \PDF::loadView('cuotas.factura', $datos);
+        $nombre_factura = date('Ymd').$cuota->id;
+        // return $nombre_factura;
+        return $pdf->download($nombre_factura.'.pdf');
 
-        return view('cuotas.factura', ['cuota' => $cuota, 'pagador' => $nombre_cliente, 'fecha_emision' => $fecha_emision, 'fecha_pago' => $fecha_pago]);
-        // return $cuota;
-        // view()->share('productos', $productos);
-        // $pdf = PDF::loadView('index', $productos);
-        // return $pdf->download('archivo-pdf.pdf');
+        // return view('cuotas.factura', ['cuota' => $cuota, 'pagador' => $nombre_cliente, 'fecha_emision' => $fecha_emision, 'fecha_pago' => $fecha_pago]);
     }
 
     /**
@@ -116,10 +133,72 @@ class CuotaController extends Controller
 
         $cuota->create($datos);
 
+        $datos['pagado'] = 0;
+
+        
+        $nombre_factura = date('Ymd');
+        
+        $correo_cliente = Cliente::select('correo')->where('id', $datos['cliente_id'])->first()->correo;
+        
+        // Dirreción del destinatario
+        $datos['email'] = $correo_cliente;
+        $datos['nombre_factura'] = $nombre_factura;
+        
+        $this->generarFacturaPDFEmail($datos);
+        // $this->enviarEmail($datos, $pdf);
+
         session()->flash('status', 'La cuota se ha añadido correctamente');
 
         return to_route('cuotas.index');
     }
+
+    /**
+     * Crear factura PDF Email
+     *
+     * @return void
+     */
+    public function generarFacturaPDFEmail($cuota){
+        // $cuota_cliente_id = $cuota->cliente_id;
+        $nombre_cliente = Cliente::select('nombre')->where('id', $cuota['cliente_id'])->first();
+        $fecha_e = explode('-', $cuota['fecha_emision']);
+        $fecha_emision = implode("/", [$fecha_e[2],$fecha_e[1],$fecha_e[0]]);
+
+        if($cuota['fecha_pago'] != null){
+            $fecha_p = explode('-', $cuota['fecha_pago']);
+            $fecha_pago = implode("/", [$fecha_p[2],$fecha_p[1],$fecha_p[0]]); 
+        }else {
+            $fecha_pago = $cuota['fecha_pago'];
+        }
+        
+        $datos = ['cuota' => $cuota, 'pagador' => $nombre_cliente, 'fecha_emision' => $fecha_emision, 'fecha_pago' => $fecha_pago];
+        // view()->share(['cuota' => $cuota, 'pagador' => $nombre_cliente, 'fecha_emision' => $fecha_emision, 'fecha_pago' => $fecha_pago]);
+        $pdf = \PDF::loadView('cuotas.factura', $datos);
+
+        Mail::send('emails.message-received', $cuota, function ($message) use ($cuota, $pdf) {
+            $cuota['asunto'] = "Factura de la cuota - Nosecaen SL";
+            $message->to($cuota['email'], $cuota['email'])
+                ->subject($cuota["asunto"])
+                ->attachData($pdf->output(), $cuota['nombre_factura'].".pdf");
+        });
+        // $nombre_factura = date('Ymd');
+        // return $nombre_factura;
+        // return "Mensaje con PDF enviado";
+
+        // return view('cuotas.factura', ['cuota' => $cuota, 'pagador' => $nombre_cliente, 'fecha_emision' => $fecha_emision, 'fecha_pago' => $fecha_pago]);
+    }
+
+    // public function enviarEmail(Array $datos, $pdf)
+    // {
+    //     // Mail::to($datos['email'])->send(new MessageReceived($datos))->attachData($pdf->output(), $datos['nombre_factura'].".pdf");
+
+    //     $datos['asunto'] = "Factura - Nosecaen SL";
+
+    //     Mail::send('emails.message-received', $datos, function ($message) use ($datos, $pdf) {
+    //         $message->to($datos['email'], $datos['email'])
+    //             ->subject($datos["asunto"])
+    //             ->attachData($pdf->output(), $datos['nombre_factura'].".pdf");
+    //     });
+    // }
 
     /**
      * Editar cuota
