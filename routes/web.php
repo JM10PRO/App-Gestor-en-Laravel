@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\LoginGoogleController;
 use App\Http\Controllers\OperarioTareaController;
+use App\Http\Controllers\PayPalController;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,34 +42,18 @@ Route::get('/google-callback', [LoginGoogleController::class, 'googleCallback'])
 
 
 // Login GitHub
-Route::get('/login-github', function () {
-    return Socialite::driver('github')->redirect();
-})->name('login-github');
+Route::get('/login-github', [LoginGitHubController::class, 'githubRedirect'])->name('login-github');
  
-Route::get('/github-callback', function () {
-    $user = Socialite::driver('github')->user();
+Route::get('/github-callback', [LoginGitHubController::class, 'githubRedirect']);
 
-    $user_exits = User::where('email', $user->email)->where('external_auth', 'github')->first();
 
-    if($user_exits){
-        Auth::login($user_exits);
-        return to_route('home');
+// PayPal Payment
+Route::get('/paypal/pay/{cuota}',[PayPalController::class, 'payWithPayPal'])->name('paypal-payment');
 
-    }else{
-        $user_new = User::create([
-            'name' => $user->name,
-            'email' => $user->email,
-            'external_id' => $user->id,
-            'external_auth' => 'github',
-        ]);
+Route::get('/paypal/status/{cuota}',[PayPalController::class, 'payPalStatus'])->name('paypal-status');
 
-        Auth::login($user_new);
 
-        return to_route('home');
-
-    }
-});
-
+// Admin Routes
 Route::group(['middleware' => 'admin', 'namespace' => 'Admin'], function () {
 
     // Admin Tareas

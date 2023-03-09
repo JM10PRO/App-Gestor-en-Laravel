@@ -113,6 +113,7 @@
                                         @endif
                                     @endforeach
                                     <a href="{{ route('cuotas.generarFactura', $cuota) }}" class="btn btn-warning">Factura</a>
+                                    <a href="{{ route('paypal-payment', $cuota) }}" class="btn btn-info">Pagar</a>
                                     <a href="{{ route('cuotas.edit', $cuota) }}" class="btn btn-primary">Editar</a>
                                     <!-- Botón borrar confirmación con modal -->
                                     <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalBorrarCuota{{$cuota->id}}">

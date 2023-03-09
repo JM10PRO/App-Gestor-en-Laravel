@@ -41,7 +41,7 @@
             <select name="cliente_id" id="cliente_id" class="form-control" value="{{ old('cliente_id', $cuota->cliente_id) }}">
                 <option value=""> -- Selecciona un cliente -- </option>
                 @foreach ($clientes as $cliente)
-                    <option value="{{ $cliente->id }}" @if($cuota->cliente_id == $cliente->id) selected @endif>{{ $cliente->nombre }}</option>
+                    <option value="{{ $cliente->id }}" @if($cuota->cliente_id == $cliente->id || old('cliente_id') == $cliente->id) selected @endif>{{ $cliente->nombre }}</option>
                 @endforeach
             </select>
             @error('cliente_id')

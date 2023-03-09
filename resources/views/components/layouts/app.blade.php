@@ -21,7 +21,7 @@
 
     <section>
         @if (session('status'))
-        <div class="status">
+        <div class="status alert alert-info">
             {{ session('status') }}
         </div>
         @endif

@@ -23,10 +23,15 @@ class TareaController extends Controller
     {
         $tareas = Tarea::orderByDesc('fechacreacion')->paginate(2);
         foreach ($tareas as $tarea) {
-            $fecha_mysql = $tarea->fecharealizacion;
-            $objeto_DateTime = DateTime::createFromFormat('Y-m-d', $fecha_mysql);
-            $fecha_nuevo_formato = $objeto_DateTime->format("d/m/Y");
-            $tarea->fecharealizacion = $fecha_nuevo_formato;
+            $fecha_creacion_mysql = $tarea->fechacreacion;
+            $objeto_DateTime1 = DateTime::createFromFormat('Y-m-d', $fecha_creacion_mysql);
+            $fecha_nuevo_formato1 = $objeto_DateTime1->format("d/m/Y");
+            $tarea->fechacreacion = $fecha_nuevo_formato1;
+
+            $fecha_realizacion_mysql = $tarea->fecharealizacion;
+            $objeto_DateTime2 = DateTime::createFromFormat('Y-m-d', $fecha_realizacion_mysql);
+            $fecha_nuevo_formato2 = $objeto_DateTime2->format("d/m/Y");
+            $tarea->fecharealizacion = $fecha_nuevo_formato2;
         }
         // En la vista
         return view('tareas.index', ['tareas' => $tareas]);
@@ -62,7 +67,7 @@ class TareaController extends Controller
      */
     public function store(SaveTareaRequest $request)
     {   
-        $request['fechacreacion'] = new Date();
+        $request['fechacreacion'] = date('Y-m-d');
         Tarea::create($request->validated());
 
         // session()->flash('status', 'La tarea se ha registrado correctamente');

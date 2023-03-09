@@ -52,10 +52,10 @@
 
             <div class="mb-3">
                 <label for="provincia" class="form-label">Provincia:</label>
-                <select id="provincia" name="provincia" class="form-control">
+                <select id="provincia" name="provincia" class="form-control" value="{{ old('provincia', $tarea->provincia) }}">
                     <option value="">Seleccionar provincia</option>
                     @foreach ($provincias as $provincia)
-                    <option value="{{ $provincia->nombre }}" @if($tarea->provincia == $provincia->nombre) selected @endif>{{ $provincia->nombre }}</option>
+                    <option value="{{ $provincia->nombre }}" @if($tarea->provincia == $provincia->nombre || old('provincia') == $provincia->nombre) selected @endif>{{ $provincia->nombre }}</option>
                     @endforeach
                 </select>
                 @error('codpostal')
@@ -78,7 +78,7 @@
 
             <div class="mb-3">
                 <label for="fechacreacion" class="form-label">Fecha de creación de la tarea:</label>
-                <input type="text" name="fechacreacion" id="fechacreacion" class="form-control" readonly value="{{ date('Y-m-d') }}">
+                <input type="text" name="fechacreacion" id="fechacreacion" class="form-control" readonly value="{{ date('d/m/Y') }}">
                 @error('fechacreacion')
                     <small class="feedback">{{ "Falta la fecha de realización" }}</small>
                 @enderror
