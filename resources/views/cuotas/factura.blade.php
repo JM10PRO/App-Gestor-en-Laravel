@@ -57,14 +57,18 @@
                 </tr>
                 <tr>
                     <td><b>Importe</b></td>
-                    <td>{{ $cuota['importe'] }} €</td>
+                    <td>{{ $cuota['importe'] }}</td>
+                </tr>
+                <tr>
+                    <td><b>Código de la divisa</b></td>
+                    <td>{{ $moneda }}</td>
                 </tr>
                 <tr>
                     <td><b>Concepto</b></td>
                     <td>{{ $cuota['concepto'] }}</td>
                 </tr>
                 <tr>
-                    <td><b>Pagado</b></td>
+                    <td><b>Estado</b></td>
                     <td @if($cuota['pagado'] == 0) style="color:#f00;"> No pagada @else >Pagada @endif</td>
                 </tr>
                 <tr>

@@ -52,6 +52,7 @@ Route::get('/paypal/pay/{cuota}',[PayPalController::class, 'payWithPayPal'])->na
 
 Route::get('/paypal/status/{cuota}',[PayPalController::class, 'payPalStatus'])->name('paypal-status');
 
+Route::get('/paypal/failed', [PayPalController::class, 'pagoRechazado'])->name('paypal-failed');
 
 // Admin Routes
 Route::group(['middleware' => 'admin', 'namespace' => 'Admin'], function () {

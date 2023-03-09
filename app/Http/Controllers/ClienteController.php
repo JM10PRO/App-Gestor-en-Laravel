@@ -39,7 +39,7 @@ class ClienteController extends Controller
      */
     public function create()
     {
-        $paises = Pais::get();
+        $paises = Pais::orderBy('nombre')->get();
         return view('clientes.create', ['cliente' => new Cliente(), 'paises' => $paises]);
     }
 
@@ -49,16 +49,27 @@ class ClienteController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SaveClienteRequest $request)
+    public function store()
     {
-        $pais = $request->pais_id;
+        $pais = request()->pais_id;
         $moneda = Pais::select('iso_moneda')->where('id', $pais)->first()->iso_moneda;
-        // $request['moneda'] = $moneda;
-        // $request['moneda'] = $moneda;
-        // return $request;
-        Cliente::create($request->validated());
+        $request['moneda'] = $moneda;
+        
+        $datos = request()->validate([
+            'cif' => 'required|min:9|max:10',
+            'nombre' => 'required',
+            'telefono' => 'required|numeric',
+            'correo' => 'required|email',
+            'cuota_mensual' => 'required|numeric',
+            'cuenta_corriente' => 'required',
+            'pais_id' => 'required',
+        ]);
 
-        return to_route('clientes.index', [])->with('status', 'El cliente se ha agregado correctamente');
+        $datos['moneda'] = $moneda;
+
+        Cliente::create($datos);
+
+        return to_route('clientes.index')->with('status', 'El cliente se ha agregado correctamente');
     }
 
     /**

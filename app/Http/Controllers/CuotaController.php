@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pais;
 use App\Models\Cuota;
+use AmrShawky\Currency;
 use App\Models\Cliente;
 use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
@@ -46,7 +47,18 @@ class CuotaController extends Controller
      */
     public function generarFacturaPDF(Cuota $cuota){
         // $cuota_cliente_id = $cuota->cliente_id;
-        $nombre_cliente = Cliente::select('nombre')->where('id', $cuota->cliente_id)->first()->nombre;
+        $cliente = Cliente::select()->where('id', $cuota->cliente_id)->first();
+
+        $nombre_cliente = $cliente->nombre;
+
+        $moneda_cliente = $cliente->moneda;
+
+        $importe_cuota_factura = Currency::convert()
+        ->from('EUR')->to($moneda_cliente)->get();
+
+        $importe_cuota_factura = round($importe_cuota_factura, 2);
+        $cuota->importe = $importe_cuota_factura;
+    
         $fecha_e = explode('-', $cuota->fecha_emision);
         $fecha_emision = implode("/", [$fecha_e[2],$fecha_e[1],$fecha_e[0]]);
 
@@ -56,13 +68,13 @@ class CuotaController extends Controller
         }else {
             $fecha_pago = $cuota->fecha_pago;
         }
-        
-        $datos = ['cuota' => $cuota, 'pagador' => $nombre_cliente, 'fecha_emision' => $fecha_emision, 'fecha_pago' => $fecha_pago];
+        $datos = ['cuota' => $cuota, 'pagador' => $nombre_cliente, 'fecha_emision' => $fecha_emision, 'fecha_pago' => $fecha_pago, 'moneda' => $moneda_cliente];
         // view()->share(['cuota' => $cuota, 'pagador' => $nombre_cliente, 'fecha_emision' => $fecha_emision, 'fecha_pago' => $fecha_pago]);
+        
         $pdf = \PDF::loadView('cuotas.factura', $datos);
         $nombre_factura = date('Ymd').$cuota->id;
         // return $nombre_factura;
-        return $pdf->download($nombre_factura.'.pdf');
+        return $pdf->setPaper('a4')->stream($nombre_factura.'.pdf');
 
         // return view('cuotas.factura', ['cuota' => $cuota, 'pagador' => $nombre_cliente, 'fecha_emision' => $fecha_emision, 'fecha_pago' => $fecha_pago]);
     }

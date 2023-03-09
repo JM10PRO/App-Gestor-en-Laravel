@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cuota;
 use PayPal\Api\Payer;
 use PayPal\Api\Amount;
+use App\Models\Cliente;
 use PayPal\Api\Payment;
 use PayPal\Api\Transaction;
 use PayPal\Rest\ApiContext;
@@ -13,6 +14,7 @@ use PayPal\Api\RedirectUrls;
 use PayPal\Api\PaymentExecution;
 use PayPal\Auth\OAuthTokenCredential;
 use Illuminate\Support\Facades\Config;
+use AmrShawky\LaravelCurrency\Facade\Currency;
 use PayPal\Exception\PayPalConnectionException;
 
 class PayPalController extends Controller
@@ -38,9 +40,14 @@ class PayPalController extends Controller
         $payer = new Payer();
         $payer->setPaymentMethod('paypal');
 
+        $moneda_cliente = Cliente::select('moneda')->where('id', $cuota->cliente_id)->first()->moneda;
+        
+        $conversion = Currency::convert()->from('EUR')->to($moneda_cliente)->amount($cuota->importe)->get();
+        $total = round($conversion, 2);
+
         $amount = new Amount();
-        $amount->setTotal($cuota->importe);
-        $amount->setCurrency('EUR');
+        $amount->setTotal($total);
+        $amount->setCurrency($moneda_cliente);
 
         $transaction = new Transaction();
         $transaction->setAmount($amount);
@@ -75,7 +82,7 @@ class PayPalController extends Controller
 
         if (!$paymentId || !$payerId || !$token) {
             $status = 'El pago a través de PayPal ha sido cancelado.';
-            return redirect('/paypal/failed')->with(compact('status'));
+            return redirect(route('paypal-failed'));
         }
 
         $payment = Payment::get($paymentId, $this->apiContext);
@@ -94,5 +101,10 @@ class PayPalController extends Controller
 
         $status = '¡Lo sentimos! El pago a través de PayPal no se pudo realizar.';
         return redirect(route('cuotas.index'))->with(compact('status'));
+    }
+
+    public function pagoRechazado()
+    {
+        return to_route('cuotas.index')->with('status', 'El pago a través de PayPal ha sido cancelado.');
     }
 }

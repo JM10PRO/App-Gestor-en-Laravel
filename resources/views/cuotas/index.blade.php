@@ -15,7 +15,7 @@
                             <th scope="col">Concepto</th>
                             <th scope="col">Fecha emisión</th>
                             <th scope="col">Importe</th>
-                            <th scope="col">Pagado</th>
+                            <th scope="col">Estado</th>
                             <th scope="col">Fecha de pago</th>
                             <th scope="col">Notas</th>
                             <th scope="col">Cliente</th>
@@ -27,7 +27,7 @@
                             <tr>
                                 <td>{{ $cuota->concepto }}</td>
                                 <td>{{ $cuota->fecha_emision }}</td>
-                                <td>{{ $cuota->importe }}</td>
+                                <td>{{ $cuota->importe }} €</td>
                                 <td>@if($cuota->pagado == 0) No pagada @else Pagada @endif</td>
                                 <td>@if($cuota->fecha_pago == null) Aún no está pagada @else {{ $cuota->fecha_pago }} @endif</td>
                                 <td>{{ $cuota->notas }}</td>
@@ -112,7 +112,7 @@
                                             </button>
                                         @endif
                                     @endforeach
-                                    <a href="{{ route('cuotas.generarFactura', $cuota) }}" class="btn btn-warning">Factura</a>
+                                    <a href="{{ route('cuotas.generarFactura', $cuota) }}" target="_blank" class="btn btn-warning">Factura</a>
                                     <a href="{{ route('paypal-payment', $cuota) }}" class="btn btn-info">Pagar</a>
                                     <a href="{{ route('cuotas.edit', $cuota) }}" class="btn btn-primary">Editar</a>
                                     <!-- Botón borrar confirmación con modal -->

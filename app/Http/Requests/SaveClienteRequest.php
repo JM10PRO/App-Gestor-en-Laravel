@@ -24,13 +24,13 @@ class SaveClienteRequest extends FormRequest
     public function rules()
     {
         return [
-            'cif' => ['required'],
-            'nombre' => ['required'],
-            'telefono' => ['required'],
-            'correo' => ['required', 'email'],
-            'cuota_mensual' => ['required'],
-            'cuenta_corriente' => ['required'],
-            'pais_id' => ['required'],
+            'cif' => 'required|min:9|max:10',
+            'nombre' => 'required',
+            'telefono' => 'required|numeric',
+            'correo' => 'required|email',
+            'cuota_mensual' => 'required|numeric',
+            'cuenta_corriente' => 'required',
+            'pais_id' => 'required',
         ];
     }
 }

@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\SaveTareaRequest;
 use App\Http\Requests\SaveIncidenciaRequest;
+use App\Models\Cliente;
 
 class TareaController extends Controller
 {
@@ -83,13 +84,22 @@ class TareaController extends Controller
      */
     public function guardarIncidencia(SaveIncidenciaRequest $request)
     {   
-        Tarea::create($request->validated());
-
+        return $request->all();
         // HAY QUE VALIDAR SI EL NFIF Y EL TLFN COINCIDE CON LA BD
+        $cif_cliente = $request->cif;
+        $telefono_cliente = $request->telefono;
+        $cliente = Cliente::select()->where('cif',$cif_cliente)->where('telefono',$telefono_cliente)->first();
+
+        if($cliente){
+            Tarea::create($request->validated());
+            return to_route('home')->with('status', 'La incidencia se ha registrado correctamente');
+        }else{
+            return view('crearincidencia', ['tarea', $request])->with('status', 'Sus credenciales no coinciden con nuestros datos.');
+        }
+
 
         // session()->flash('status', 'La tarea se ha registrado correctamente');
         // con With enviamos el mensaje flash
-        return to_route('home')->with('status', 'La incidencia se ha registrado correctamente');
     }
 
     /**
