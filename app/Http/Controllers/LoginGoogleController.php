@@ -19,7 +19,7 @@ class LoginGoogleController extends Controller
         $google_user = Socialite::driver('google')->user();
 
         $user_exits = User::select()->where('email', $google_user->email)->where('external_auth', 'google')->first();
-        // dd($user_exits);
+        
         if ($user_exits) {
             Auth::login($user_exits);
             session(['hora' => date('H:i:s')]);

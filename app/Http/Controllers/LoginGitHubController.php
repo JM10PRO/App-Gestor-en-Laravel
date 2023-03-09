@@ -19,7 +19,7 @@ class LoginGitHubController extends Controller
         $github_user = Socialite::driver('github')->user();
 
         $user_exits = User::select()->where('email', $github_user->email)->first();
-        dd($user_exits);
+        
         if ($user_exits) {
             Auth::login($user_exits);
             session(['hora' => date('H:i:s')]);
