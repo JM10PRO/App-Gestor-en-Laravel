@@ -38,7 +38,7 @@
                         </li>
                     @endif
                     @if(Auth::check() && Auth::user()->isOperario())
-                        Soy operario
+                        <a href="{{ route('operario.tareas.index') }}" class="btn btn-link">Mis tareas pendientes</a>
                     @endif
                     @guest
                       <li class="nav-item">
@@ -47,16 +47,7 @@
                       <li class="nav-item">
                           <a class="nav-link" href="{{ route('login') }}">Login</a>
                       </li>
-                    @endguest
-                    @auth
-                        <form action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <li class="nav-item">
-                            <a href="/logout" class="nav-link text-danger logout" onclick="this.closest('form').submit();">Cerrar sesión</a>
-                            </li>
-                        </form>
-                    @endauth
-                    
+                    @endguest                    
                 </ul>
             </div>
         </div>
@@ -66,6 +57,16 @@
             @auth
                 Usuario conectado: {{ Auth::user()->name }} <br>
                 Rol: {{ Auth::user()->getRole() }} | Conexión: {{ session('hora'); }}  
+            @endauth
+        </div>
+        <div>
+            @auth
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    
+                        <a href="/logout" class="nav-link text-danger logout" onclick="this.closest('form').submit();">Cerrar sesión</a>
+                    
+                </form>
             @endauth
         </div>
     </div>

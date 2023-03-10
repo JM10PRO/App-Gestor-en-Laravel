@@ -28,7 +28,7 @@
 </div>
 <div class="mb-3">
     <label for="password" class="form-label">Repite la contraseña:</label>
-    <input type="password" id="password" name="password_confirmation" placeholder="password" class="form-control" value="{{old('password', $empleado->password)}}">
+    <input type="password" id="password_confirmation" name="password_confirmation" placeholder="password" class="form-control" value="{{old('password', $empleado->password)}}">
     @error('password')
         <small class="feedback">{{ $message }}</small>
     @enderror
@@ -55,3 +55,79 @@
     @enderror
 </div>
 <input type="submit" value="Guardar" class="btn btn-secondary">
+<script>
+    $(document).on('submit', '#formulario-empleados', function(event) {
+    event.preventDefault(); // Evitar que el formulario se envíe de forma predeterminada
+
+    // Obtener los valores de los campos del formulario
+    var _token = $("input[name='_token']").val();
+    var name = $('#name').val();
+    var nif = $('#nif').val();
+    var email = $('#email').val();
+    var password = $('#password').val();
+    var password_confirmation = $('#password_confirmation').val();
+    var telefono = $('#telefono').val();
+    var direccion = $('#direccion').val();
+    var role = $('#role').val();
+
+    // Crear una solicitud AJAX utilizando jQuery
+    $.ajax({
+        url: '/empleados',
+        method: 'POST',
+        data: { 
+            _token: _token,
+            name: name,
+            nif: nif,
+            email: email,
+            password: password,
+            password_confirmation: password_confirmation,
+            telefono: telefono,
+            direccion: direccion,
+            role: role
+        },
+        dataType: 'json',
+        success: function(nuevoRegistro) {
+            alert("funciona");
+            console.log(nuevoRegistro);
+            console.log("nuevo registro insertado");
+        // Actualizar la interfaz de usuario con el nuevo registro creado
+        // Código para actualizar la interfaz de usuario
+        },
+        error: function(xhr, textStatus, errorThrown) {
+        // Manejar el error devuelto por el servidor
+        // alert(xhr.responseJSON.message);
+        window.location.href = <?php echo route('empleados.index'); ?>
+        }
+    });
+});
+
+function actualizarTablaUsuarios() {
+  // Crear una solicitud AJAX utilizando jQuery
+  $.ajax({
+    url: '/usuarios',
+    method: 'GET',
+    dataType: 'json',
+    success: function(usuarios) {
+      // Limpiar la tabla
+      $('#tabla-usuarios tbody').empty();
+
+      // Agregar las filas a la tabla con los usuarios obtenidos del servidor
+      usuarios.forEach(function(usuario) {
+        var fila = '<tr>' +
+          '<td>' + usuario.nombre + '</td>' +
+          '<td>' + usuario.apellido + '</td>' +
+          '<td>' +
+            '<button class="boton-edicion" data-id="' + usuario.id + '">Editar</button>' +
+            '<button class="boton-eliminacion" data-id="' + usuario.id + '">Eliminar</button>' +
+          '</td>' +
+        '</tr>';
+        $('#tabla-usuarios tbody').append(fila);
+      });
+    },
+    error: function(xhr, textStatus, errorThrown) {
+      // Manejar el error devuelto por el servidor
+      alert(xhr.responseJSON.message);
+    }
+  });
+}
+</script>

@@ -126,6 +126,10 @@ Route::group(['middleware' => 'admin', 'namespace' => 'Admin'], function () {
 Route::group(['middleware' => 'auth'], function () {
     // Operario Tareas
     Route::get('/tareas-operario', [OperarioTareaController::class, 'index'])->name('operario.tareas.index');
+    
+    Route::get('/tareas-operario/editar/{tarea}', [OperarioTareaController::class, 'edit'])->name('operario.tareas.edit');
+
+    Route::patch('/tareas-operario/{tarea}', [OperarioTareaController::class, 'update'])->name('operario.tareas.update');
 });
 
 

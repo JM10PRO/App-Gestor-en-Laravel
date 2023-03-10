@@ -1,6 +1,6 @@
 <x-layouts.app title="Tareas" meta-description="Tareas meta description">
 
-    <h1>Nueva tarea</h1>
+    <h1>Editar tarea</h1>
 
     <div class="container">
         <form action="{{ route('tareas.update', $tarea) }}" enctype="multipart/form-data" method="POST">

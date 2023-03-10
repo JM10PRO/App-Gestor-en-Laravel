@@ -108,6 +108,8 @@ class CuotaController extends Controller
         foreach($clientes as $cliente){
             $datos['cliente_id'] = $cliente->id;
             $cuota->create($datos);
+            $datos['nombre_factura'] = date('Ymd');
+            $this->generarFacturaPDFEmail($datos);
         }
 
         session()->flash('status', 'Se ha enviado la cuota mensual correctamente');
@@ -171,7 +173,18 @@ class CuotaController extends Controller
      */
     public function generarFacturaPDFEmail($cuota){
         // $cuota_cliente_id = $cuota->cliente_id;
-        $nombre_cliente = Cliente::select('nombre')->where('id', $cuota['cliente_id'])->first();
+        $cliente = Cliente::select()->where('id', $cuota->cliente_id)->first();
+
+        $nombre_cliente = $cliente->nombre;
+
+        $moneda_cliente = $cliente->moneda;
+
+        $importe_cuota_factura = Currency::convert()
+        ->from('EUR')->to($moneda_cliente)->get();
+
+        $importe_cuota_factura = round($importe_cuota_factura, 2);
+        $cuota->importe = $importe_cuota_factura;
+
         $fecha_e = explode('-', $cuota['fecha_emision']);
         $fecha_emision = implode("/", [$fecha_e[2],$fecha_e[1],$fecha_e[0]]);
 
@@ -182,7 +195,7 @@ class CuotaController extends Controller
             $fecha_pago = $cuota['fecha_pago'];
         }
         
-        $datos = ['cuota' => $cuota, 'pagador' => $nombre_cliente, 'fecha_emision' => $fecha_emision, 'fecha_pago' => $fecha_pago];
+        $datos = ['cuota' => $cuota, 'pagador' => $nombre_cliente, 'fecha_emision' => $fecha_emision, 'fecha_pago' => $fecha_pago, 'moneda' => $moneda_cliente];
         // view()->share(['cuota' => $cuota, 'pagador' => $nombre_cliente, 'fecha_emision' => $fecha_emision, 'fecha_pago' => $fecha_pago]);
         $pdf = \PDF::loadView('cuotas.factura', $datos);
 
