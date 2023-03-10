@@ -25,7 +25,7 @@ use App\Http\Controllers\PayPalController;
 */
 
 Route::get('/', function () {
-    return view('home');
+    return to_route('home');
 });
 
 Route::view('/home','home')->name('home');

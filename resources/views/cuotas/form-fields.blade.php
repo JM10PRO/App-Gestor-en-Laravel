@@ -17,15 +17,6 @@
             @enderror
         </div>
     </div>
-    {{-- <div class="col col-3">
-        <div class="mb-3">
-            <label for="fecha_pago" class="form-label">Fecha de pago</label>
-            <input type="date" name="fecha_pago" id="fecha_pago" class="form-control" value="{{ old('fecha_pago', $cuota->fecha_pago) }}">
-            @error('fecha_pago')
-                <small class="feedback">{{ "Falta la fecha de pago" }}</small>
-            @enderror
-        </div>
-    </div> --}}
     <div class="col col-3">
         <div class="mb-3">
             <label for="importe" class="form-label">Importe</label>
